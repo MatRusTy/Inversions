@@ -4,11 +4,14 @@ import java.util.*;
 import java.math.*;
 
 public class Inversions {
+    
+    private int countInv = 0;
+    
     public int countInversions(ArrayList<Integer> input) {
         
+        mergeSort(input,0,input.size());
         
-        
-        return 42;
+        return countInv;
     }
     
     public void mergeSort(ArrayList<Integer> A, int p, int r){
@@ -33,15 +36,32 @@ public class Inversions {
         ArrayList<Integer> R = new ArrayList<Integer>();
         
         
-        for (int i = 0; i<n1; i++){
-            L.add(i, A.get(p+i-1));
+        for (int i = 1; i<n1; i++){
+            L.add(i, A.get(p+i));
         }
         
-        for (int j = 0; j<n2; j++){
-            L.add(j, A.get(q+j));
+        for (int j = 1; j<n2; j++){
+            L.add(j, A.get(q+j+1));
         }
 
+        L.set(n1+1, 65536);
+        R.set(n2+1, 65536);
         
+        
+        int i = 1;
+        int j = 1;
+        
+        for (int k = p; k < r; k++){
+            if (L.get(i) <= R.get(j)){
+               A.set(k, L.get(i));
+               i++;
+            }
+            else{
+                A.set(k, R.get(j));
+                j++;
+                countInv++;
+            }
+        }
     }
         
     public static void testAll() {
