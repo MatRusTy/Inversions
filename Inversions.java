@@ -4,17 +4,17 @@ import java.util.*;
 import java.math.*;
 
 public class Inversions {
-
     private int countInv = 0;
 
-    public int countInversions(ArrayList<Integer> input) {
-
+    public int countInversions(ArrayList<Integer> input)
+    {
         mergeSort(input,0,input.size()-1);
 
         return countInv;
     }
 
-    public void mergeSort(ArrayList<Integer> A, int left, int right){
+    public void mergeSort(ArrayList<Integer> A, int left, int right)
+    {
         if (left < right){
             int mid = (left + right)/2;
 
@@ -23,12 +23,11 @@ public class Inversions {
             mergeSort(A,mid+1,right);
 
             merge(A,left,mid,right);
-
         }
     }
 
-    public void merge(ArrayList<Integer> A, int left, int mid, int right){
-
+    public void merge(ArrayList<Integer> A, int left, int mid, int right)
+    {
         int n1 = mid - left + 1;
         int n2 = right - mid;
 
@@ -65,7 +64,6 @@ public class Inversions {
                 }
             }
         }
-        
     }
 
     public static void testAll() {
