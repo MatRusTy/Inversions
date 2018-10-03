@@ -41,15 +41,17 @@ public class Inversions {
         for (int j = 0; j<n2; ++j){ //insert right elements from main array into right pile
             R.add(j, A.get(mid + j + 1));
         }
-
-        L.add(65536); //sentinel
-        R.add(65536); //sentinel
+        
+        
+        
+        L.add(999999999); //sentinel
+        R.add(999999999); //sentinel
         
         int i = 0; //index of top element in left pile
         int j = 0; //index of top element in right pile
         
         for (int k = left; k <= right; k++){
-            if(L.get(i) == 65536){ // left pile is empty. Add remaining elements from right pile to main array.
+            if(L.get(i) == 999999999){ // left pile is empty. Add remaining elements from right pile to main array.
                 A.set(k, R.get(j));
                 j++;
             } else {
