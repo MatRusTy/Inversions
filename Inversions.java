@@ -28,39 +28,39 @@ public class Inversions {
 
     public void merge(ArrayList<Integer> A, int left, int mid, int right)
     {
-        int n1 = mid - left + 1;
-        int n2 = right - mid;
+        int n1 = mid - left + 1; //legngth of left pile
+        int n2 = right - mid; // length of right pile
 
-        ArrayList<Integer> L = new ArrayList<Integer>();
-        ArrayList<Integer> R = new ArrayList<Integer>();
+        ArrayList<Integer> L = new ArrayList<Integer>(); //left pile
+        ArrayList<Integer> R = new ArrayList<Integer>(); //right pile
 
-        for (int i = 0; i<n1; ++i){
+        for (int i = 0; i<n1; ++i){ //insert left elements from main array into left pile
             L.add(i, A.get(left + i));
         }
 
-        for (int j = 0; j<n2; ++j){
+        for (int j = 0; j<n2; ++j){ //insert right elements from main array into right pile
             R.add(j, A.get(mid + j + 1));
         }
 
         L.add(65536); //sentinel
         R.add(65536); //sentinel
         
-        int i = 0;
-        int j = 0;
+        int i = 0; //index of top element in left pile
+        int j = 0; //index of top element in right pile
         
         for (int k = left; k <= right; k++){
-            if(L.get(i) == 65536){
+            if(L.get(i) == 65536){ // left pile is empty. Add remaining elements from right pile to main array.
                 A.set(k, R.get(j));
                 j++;
             } else {
-                if (L.get(i) <= R.get(j)){
+                if (L.get(i) <= R.get(j)){ //the left element is less than the right element (already sorted)
                     A.set(k, L.get(i));
                     i++;
                 }
-                else{
+                else{ // the right element is less than the left element (here we have a swap)
                     A.set(k, R.get(j));
                     j++;
-                    countInv += n1-i;
+                    countInv += n1-i; //n1-i is remaining elements in left pile. Our element from right pile is an inverted pair with each of the remaining elemets from the left pile
                 }
             }
         }
