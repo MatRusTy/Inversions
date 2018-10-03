@@ -4,66 +4,70 @@ import java.util.*;
 import java.math.*;
 
 public class Inversions {
-    
+
     private int countInv = 0;
-    
+
     public int countInversions(ArrayList<Integer> input) {
-        
-        mergeSort(input,0,input.size());
-        
+
+        mergeSort(input,0,input.size()-1);
+
         return countInv;
     }
-    
-    public void mergeSort(ArrayList<Integer> A, int p, int r){
-        if (p<r){
-            int q = (int) Math.floor((p+r)/2);
-            
-            mergeSort(A,p,q);
-            
-            mergeSort(A,q+1,r);
-            
-            merge(A,p,q,r);
-            
+
+    public void mergeSort(ArrayList<Integer> A, int left, int right){
+        if (left < right){
+            int mid = (left + right)/2;
+
+            mergeSort(A,left,mid);
+
+            mergeSort(A,mid+1,right);
+
+            merge(A,left,mid,right);
+
         }
     }
-    
-    public void merge(ArrayList<Integer> A, int p, int q, int r){
-        
-        int n1 = q-p+1;
-        int n2 = r-q;
-        
+
+    public void merge(ArrayList<Integer> A, int left, int mid, int right){
+
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
         ArrayList<Integer> L = new ArrayList<Integer>();
         ArrayList<Integer> R = new ArrayList<Integer>();
-        
-        
-        for (int i = 1; i<n1; i++){
-            L.add(i, A.get(p+i));
-        }
-        
-        for (int j = 1; j<n2; j++){
-            L.add(j, A.get(q+j+1));
+
+        for (int i = 0; i<n1; ++i){
+            L.add(i, A.get(left + i));
         }
 
-        L.set(n1+1, 65536);
-        R.set(n2+1, 65536);
+        for (int j = 0; j<n2; ++j){
+            R.add(j, A.get(mid + j + 1));
+        }
+
+        L.add(65536); //sentinel
+        R.add(65536); //sentinel
         
+        int i = 0;
+        int j = 0;
         
-        int i = 1;
-        int j = 1;
-        
-        for (int k = p; k < r; k++){
-            if (L.get(i) <= R.get(j)){
-               A.set(k, L.get(i));
-               i++;
-            }
-            else{
+        for (int k = left; k <= right; k++){
+            if(L.get(i) == 65536){
                 A.set(k, R.get(j));
                 j++;
-                countInv++;
+            } else {
+                if (L.get(i) <= R.get(j)){
+                    A.set(k, L.get(i));
+                    i++;
+                }
+                else{
+                    A.set(k, R.get(j));
+                    j++;
+                    countInv += n1-i;
+                }
             }
         }
-    }
         
+    }
+
     public static void testAll() {
         clearTerminal();
         testSingle();
@@ -85,8 +89,8 @@ public class Inversions {
 
         if (output != correctAnswer)
             outputFail("testSingle",
-                       "Expected output " + correctAnswer +
-                       " but got " + output);
+                "Expected output " + correctAnswer +
+                " but got " + output);
         else
             outputPass("testSingle");
     }
@@ -102,8 +106,8 @@ public class Inversions {
 
         if (output != correctAnswer)
             outputFail("testTwoSorted",
-                       "Expected output " + correctAnswer +
-                       " but got " + output);
+                "Expected output " + correctAnswer +
+                " but got " + output);
         else
             outputPass("testTwoSorted");
     }
@@ -119,8 +123,8 @@ public class Inversions {
 
         if (output != correctAnswer)
             outputFail("testTwoInverted",
-                       "Expected output " + correctAnswer +
-                       " but got " + output);
+                "Expected output " + correctAnswer +
+                " but got " + output);
         else
             outputPass("testTwoInverted");
     }
@@ -136,8 +140,8 @@ public class Inversions {
 
         if (output != correctAnswer)
             outputFail("test1",
-                       "Expected output " + correctAnswer +
-                       " but got " + output);
+                "Expected output " + correctAnswer +
+                " but got " + output);
         else
             outputPass("test1");
     }
@@ -153,8 +157,8 @@ public class Inversions {
 
         if (output != correctAnswer)
             outputFail("test2",
-                       "Expected output " + correctAnswer +
-                       " but got " + output);
+                "Expected output " + correctAnswer +
+                " but got " + output);
         else
             outputPass("test2");
     }
